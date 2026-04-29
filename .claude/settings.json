@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const {getIronSession} = require\\('iron-session'\\); console.log\\(getIronSession.toString\\(\\).slice\\(0,300\\)\\)\")",
+      "Bash(npx tsc *)",
+      "Bash(npm install *)",
+      "Bash(npm rebuild *)",
+      "Bash(node -e \"const {getDb} = require\\('./lib/db'\\); const db = getDb\\(\\); const users = db.prepare\\('SELECT id, email, display_name, role, is_active, provider FROM users'\\).all\\(\\); console.log\\(JSON.stringify\\(users, null, 2\\)\\);\")",
+      "Bash(node -e ' *)",
+      "Bash(node -e \"const p = require\\('./node_modules/next/package.json'\\); console.log\\(p.version\\)\")",
+      "Bash(grep -o \"PROXY_FILENAME.\\\\{0,100\\\\}\" node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js)",
+      "Bash(xargs grep *)",
+      "Bash(npm run *)"
+    ]
+  }
+}

@@ -4,6 +4,15 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/components/providers/LanguageProvider';
 
+function focusEl(e: React.FocusEvent<HTMLInputElement>) {
+  e.target.style.borderColor = '#222222';
+  e.target.style.boxShadow = '0 0 0 2px #222222';
+}
+function blurEl(e: React.FocusEvent<HTMLInputElement>) {
+  e.target.style.borderColor = '#dddddd';
+  e.target.style.boxShadow = 'none';
+}
+
 export function JoinSessionForm() {
   const router = useRouter();
   const { t } = useLanguage();
@@ -34,21 +43,21 @@ export function JoinSessionForm() {
           value={sessionId}
           onChange={e => setSessionId(e.target.value)}
           placeholder={t('form.pasteJoinId')}
-          className="flex-1 px-3 py-2.5 text-sm rounded-xl outline-none transition-all"
-          style={{ border: '1.5px solid var(--border-input)', background: 'var(--surface-dim)', color: 'var(--text)' }}
-          onFocus={e => { e.target.style.borderColor = 'var(--border-input-focus)'; e.target.style.boxShadow = '0 0 0 3px rgba(99,102,241,0.12)'; }}
-          onBlur={e => { e.target.style.borderColor = 'var(--border-input)'; e.target.style.boxShadow = 'none'; }}
+          className="flex-1 px-3 py-2.5 text-sm rounded-lg outline-none transition-all"
+          style={{ border: '1px solid #dddddd', background: '#ffffff', color: '#222222' }}
+          onFocus={focusEl}
+          onBlur={blurEl}
         />
         <button
           type="submit"
           disabled={loading || !sessionId.trim()}
-          className="text-sm font-semibold px-4 py-2 rounded-xl text-white disabled:opacity-50 transition-all hover:-translate-y-px"
-          style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow: '0 4px 14px rgba(99,102,241,0.38)' }}
+          className="text-sm font-600 px-4 py-2 rounded-lg disabled:opacity-50 transition-all hover:opacity-90"
+          style={{ background: '#ff385c', color: '#ffffff' }}
         >
           {loading ? '…' : t('form.joinSession')}
         </button>
       </div>
-      {error && <p className="text-red-500 text-xs bg-red-50 px-3 py-1.5 rounded-lg">{error}</p>}
+      {error && <p className="text-xs px-3 py-1.5 rounded-lg" style={{ color: '#c13515', background: '#fff0f0' }}>{error}</p>}
     </form>
   );
 }

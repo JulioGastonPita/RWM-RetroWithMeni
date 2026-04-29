@@ -26,6 +26,7 @@
   "board.changeName": "Change your name",
   "board.setName": "Set name",
   "board.share": "Share",
+  "board.logout": "Logout",
   "board.copied": "Copied!",
   "board.retroComplete": "Retrospective Complete!",
   "board.greatWork": "Great work, team.",

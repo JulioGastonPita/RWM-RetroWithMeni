@@ -49,18 +49,18 @@ export function Card({
 
   if (card.isHidden && !card.isOwn) {
     return (
-      <div className={`rounded-xl p-3 transition-all ${isHighlighted ? 'ring-2 ring-yellow-400' : ''}`}
-        style={{ background: 'var(--surface-solid)', border: '1px solid var(--border)', borderLeft: '3px solid var(--border-input)', boxShadow: 'var(--card-shadow)' }}>
-        <div className="h-2.5 rounded animate-pulse mb-2 w-3/4" style={{ background: 'var(--border-input)' }} />
-        <div className="h-2.5 rounded animate-pulse w-1/2" style={{ background: 'var(--border-input)' }} />
-        <p className="text-xs mt-2 italic" style={{ color: 'var(--text-subtle)' }}>{t('board.hiddenUntilReveal')}</p>
+      <div className={`rounded-xl p-3 transition-all ${isHighlighted ? 'ring-2 ring-[#ff385c]' : ''}`}
+        style={{ background: '#f7f7f7', border: '1px solid #dddddd', borderLeft: '3px solid #dddddd', boxShadow: 'var(--card-shadow)' }}>
+        <div className="h-2.5 rounded animate-pulse mb-2 w-3/4" style={{ background: '#dddddd' }} />
+        <div className="h-2.5 rounded animate-pulse w-1/2" style={{ background: '#dddddd' }} />
+        <p className="text-xs mt-2 italic" style={{ color: '#929292' }}>{t('board.hiddenUntilReveal')}</p>
       </div>
     );
   }
 
   if (editing && canEdit) {
     return (
-      <div className="rounded-xl p-3" style={{ background: 'var(--surface-solid)', border: '1.5px solid var(--border-input-focus)', boxShadow: '0 0 0 3px rgba(99,102,241,0.12)' }}>
+      <div className="rounded-xl p-3" style={{ background: '#ffffff', border: '1px solid #dddddd', boxShadow: '0 0 0 2px #222222' }}>
         <CardForm
           initialValue={card.content}
           onSubmit={(content) => { onEdit!(card.id, content); setEditing(false); }}
@@ -73,18 +73,18 @@ export function Card({
 
   return (
     <div
-      className={`rounded-xl p-3 transition-all ${isHighlighted ? 'scale-[1.02] ring-2 ring-yellow-400' : 'hover:-translate-y-0.5'}`}
+      className={`rounded-xl p-3 transition-all ${isHighlighted ? 'scale-[1.02] ring-2 ring-[#ff385c]' : 'hover:-translate-y-0.5'}`}
       style={{
-        background: 'var(--surface-solid)',
-        border: '1px solid var(--border)',
-        borderLeft: '3px solid #a5b4fc',
-        boxShadow: isHighlighted ? '0 8px 24px rgba(99,102,241,0.18)' : 'var(--card-shadow)',
+        background: '#ffffff',
+        border: '1px solid #dddddd',
+        borderLeft: '3px solid #ff385c',
+        boxShadow: isHighlighted ? '0 4px 12px rgba(255,56,92,0.15)' : 'var(--card-shadow)',
       }}
     >
-      <p className="text-[13.5px] whitespace-pre-wrap break-words leading-relaxed" style={{ color: 'var(--text)' }}>{card.content}</p>
+      <p className="text-[13.5px] whitespace-pre-wrap break-words leading-relaxed" style={{ color: '#222222' }}>{card.content}</p>
 
       <div className="flex items-center justify-between mt-2">
-        <span className="text-xs" style={{ color: 'var(--text-subtle)' }}>{card.authorName}</span>
+        <span className="text-xs" style={{ color: '#929292' }}>{card.authorName}</span>
 
         <div className="flex items-center gap-1">
           {showVote && (
@@ -97,16 +97,16 @@ export function Card({
             />
           )}
           {phase === 'discuss' && (
-            <span className="flex items-center gap-1 text-xs font-semibold text-indigo-500"
-              style={{ background: '#eef2ff', borderRadius: '20px', padding: '2px 8px' }}>
+            <span className="flex items-center gap-1 text-xs font-500"
+              style={{ background: 'rgba(255,56,92,0.08)', color: '#ff385c', borderRadius: '20px', padding: '2px 8px' }}>
               👍 {card.voteCount}
             </span>
           )}
           {canEdit && (
             <button
               onClick={() => setEditing(true)}
-              className="text-xs p-1 rounded transition-colors hover:bg-indigo-50"
-              style={{ color: 'var(--text-subtle)' }}
+              className="text-xs p-1 rounded-full transition-colors hover:text-[#222222]"
+              style={{ color: '#929292' }}
               title={t('board.editCard')}
             >
               ✏
@@ -115,8 +115,8 @@ export function Card({
           {canDelete && (
             <button
               onClick={() => onDelete!(card.id)}
-              className="text-sm font-bold p-1 rounded transition-colors hover:bg-red-50 hover:text-red-400"
-              style={{ color: 'var(--text-subtle)' }}
+              className="text-sm font-bold p-1 rounded-full transition-colors hover:text-[#c13515]"
+              style={{ color: '#929292' }}
               title={t('board.deleteCard')}
             >
               ×

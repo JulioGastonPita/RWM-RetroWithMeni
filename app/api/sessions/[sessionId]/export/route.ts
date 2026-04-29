@@ -21,11 +21,11 @@ export async function GET(
   const votes = getVotesBySession(sessionId);
   const columns = getColumns(session.format);
 
-  const exportCards = cards.map(card => ({
-    column: columns.find(c => c.id === card.column_id)?.label || card.column_id,
+  const exportCards = (cards as any[]).map((card: any) => ({
+    column: (columns as any[]).find((c: any) => c.id === card.column_id)?.label || card.column_id,
     content: card.content,
     author: card.author_name,
-    votes: votes.filter(v => v.card_id === card.id).length,
+    votes: (votes as any[]).filter((v: any) => v.card_id === card.id).length,
     createdAt: new Date(card.created_at).toISOString(),
   }));
 

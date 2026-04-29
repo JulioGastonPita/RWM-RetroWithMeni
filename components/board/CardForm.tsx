@@ -38,6 +38,15 @@ export function CardForm({
     if (e.key === 'Escape' && onCancel) onCancel();
   }
 
+  function focusTA(e: React.FocusEvent<HTMLTextAreaElement>) {
+    e.target.style.borderColor = '#222222';
+    e.target.style.boxShadow = '0 0 0 2px #222222';
+  }
+  function blurTA(e: React.FocusEvent<HTMLTextAreaElement>) {
+    e.target.style.borderColor = '#dddddd';
+    e.target.style.boxShadow = 'none';
+  }
+
   return (
     <form onSubmit={handleSubmit} className="mt-2">
       <textarea
@@ -48,24 +57,24 @@ export function CardForm({
         placeholder={finalPlaceholder}
         rows={3}
         maxLength={500}
-        className="w-full px-3 py-2 text-sm rounded-xl outline-none resize-none transition-all"
-        style={{ border: '1.5px solid var(--border-input)', background: 'var(--surface-dim)', color: 'var(--text)' }}
-        onFocus={e => { e.target.style.borderColor = 'var(--border-input-focus)'; e.target.style.boxShadow = '0 0 0 3px rgba(99,102,241,0.12)'; }}
-        onBlur={e => { e.target.style.borderColor = 'var(--border-input)'; e.target.style.boxShadow = 'none'; }}
+        className="w-full px-3 py-2 text-sm rounded-lg outline-none resize-none transition-all"
+        style={{ border: '1px solid #dddddd', background: '#ffffff', color: '#222222' }}
+        onFocus={focusTA}
+        onBlur={blurTA}
       />
       <div className="flex gap-2 mt-1 justify-end">
         {onCancel && (
           <button type="button" onClick={onCancel}
-            className="text-sm px-2 py-1 rounded-lg transition-colors"
-            style={{ color: 'var(--text-muted)' }}>
+            className="text-sm px-2 py-1 rounded-lg transition-colors hover:bg-gray-50"
+            style={{ color: '#6a6a6a' }}>
             ✕ {t('board.cancel')}
           </button>
         )}
         <button
           type="submit"
           disabled={!value.trim()}
-          className="text-sm text-white px-3 py-1 rounded-lg font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:-translate-y-px"
-          style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow: '0 3px 10px rgba(99,102,241,0.3)' }}
+          className="text-sm px-3 py-1 rounded-lg font-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:opacity-90"
+          style={{ background: '#ff385c', color: '#ffffff' }}
         >
           ✓ {finalSubmitLabel}
         </button>

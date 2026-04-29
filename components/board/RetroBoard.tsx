@@ -13,9 +13,7 @@ interface ColumnDef {
   id: string;
   label: string;
   emoji: string;
-  color: string;
-  border: string;
-  header: string;
+  accent: string;
 }
 
 interface Participant {
@@ -305,34 +303,43 @@ function showToast() {
         style={{ background: 'var(--surface)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border)', boxShadow: 'var(--header-shadow)' }}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="rounded-[10px] flex items-center justify-center text-white text-sm font-bold px-2 py-1.5"
-              style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow: '0 4px 14px rgba(99,102,241,0.4)' }}>
-              RWM [v{process.env.NEXT_PUBLIC_APP_VERSION}]
+            <div className="flex items-center gap-1.5">
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: '#ff385c' }}>
+                <span className="text-white font-bold text-[10px]">RWM</span>
+              </div>
             </div>
             <h2 className="text-sm font-semibold truncate max-w-xs" style={{ color: 'var(--text)' }}>{state.session.name}</h2>
           </div>
           <div className="flex items-center gap-2">
-            <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-400' : 'bg-red-400'}`} />
+            <div className="w-2 h-2 rounded-full" style={{ background: isConnected ? '#16a34a' : '#c13515' }} />
             <span className="text-xs" style={{ color: 'var(--text-subtle)' }}>{isConnected ? t('board.connected') : t('board.disconnected')}</span>
             <button
               onClick={() => { setNameInput(displayName); setShowNameModal(true); }}
-              className="text-xs px-3 py-1.5 rounded-[10px] font-medium transition-all hover:-translate-y-px"
-              style={{ background: 'var(--surface-solid)', border: '1.5px solid var(--border-input)', color: 'var(--text-secondary)' }}
+              className="text-xs px-3 py-1.5 rounded-lg font-500 transition-all hover:bg-gray-50"
+              style={{ border: '1px solid #dddddd', color: '#6a6a6a', background: '#ffffff' }}
               title={t('board.changeName')}
             >
               👥 {displayName || t('board.setName')}
             </button>
             <button
               onClick={handleShareUrl}
-              className="text-xs px-3 py-1.5 rounded-[10px] font-semibold text-white transition-all hover:-translate-y-px relative"
-              style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow: '0 4px 14px rgba(99,102,241,0.38)' }}
+              className="text-xs px-3 py-1.5 rounded-lg font-600 transition-all hover:opacity-90 relative"
+              style={{ background: '#ff385c', color: '#ffffff' }}
             >
               🔗 {t('board.share')}
               {shareToast && (
-                <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs bg-gray-800 text-white px-2 py-1 rounded-lg whitespace-nowrap">
+                <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs px-2 py-1 rounded-lg whitespace-nowrap" style={{ background: '#222222', color: '#ffffff' }}>
                   {t('board.copied')}
                 </span>
               )}
+            </button>
+            <button
+              onClick={async () => { await fetch('/api/auth/logout', { method: 'POST' }); window.location.href = '/login'; }}
+              className="text-xs px-3 py-1.5 rounded-lg transition-all hover:bg-gray-50"
+              style={{ border: '1px solid #dddddd', color: '#6a6a6a', background: '#ffffff' }}
+              title="Logout"
+            >
+              ↪ {t('board.logout') || 'Logout'}
             </button>
           </div>
         </div>
@@ -364,8 +371,8 @@ function showToast() {
             {isFacilitator && facilitatorToken && (
               <button
                 onClick={() => handleExport(facilitatorToken)}
-                className="text-white px-6 py-2.5 rounded-xl font-semibold transition-all hover:-translate-y-px"
-                style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow: '0 4px 14px rgba(99,102,241,0.38)' }}
+                className="px-6 py-2.5 rounded-lg font-600 transition-all hover:opacity-90"
+                style={{ background: '#ff385c', color: '#ffffff' }}
               >
                 {t('board.downloadExport')}
               </button>
@@ -398,7 +405,7 @@ function showToast() {
 
       {/* Discuss: click on cards to highlight — hint bar */}
       {state.session.phase === 'discuss' && isFacilitator && (
-        <div className="bg-yellow-50 border-t border-yellow-200 text-yellow-700 text-xs text-center py-2">
+        <div className="text-xs text-center py-2" style={{ background: '#fff9f5', borderTop: '1px solid #fde8d3', color: '#c45500' }}>
           {t('board.discussionHint')}
         </div>
       )}
@@ -426,10 +433,10 @@ function showToast() {
                 if (e.key === 'Escape') setShowNameModal(false);
               }}
               maxLength={30}
-              className="w-full px-3 py-2.5 mb-4 text-sm rounded-xl outline-none transition-all"
-              style={{ border: '1.5px solid var(--border-input)', background: 'var(--surface-dim)', color: 'var(--text)' }}
-              onFocus={e => { e.target.style.borderColor = 'var(--border-input-focus)'; e.target.style.boxShadow = '0 0 0 3px rgba(99,102,241,0.12)'; }}
-              onBlur={e => { e.target.style.borderColor = 'var(--border-input)'; e.target.style.boxShadow = 'none'; }}
+              className="w-full px-3 py-2.5 mb-4 text-sm rounded-lg outline-none transition-all"
+              style={{ border: '1px solid #dddddd', background: '#ffffff', color: '#222222' }}
+              onFocus={e => { e.target.style.borderColor = '#222222'; e.target.style.boxShadow = '0 0 0 2px #222222'; }}
+              onBlur={e => { e.target.style.borderColor = '#dddddd'; e.target.style.boxShadow = 'none'; }}
               autoFocus
             />
             <div className="flex gap-2 justify-end">
@@ -442,7 +449,7 @@ function showToast() {
                 onClick={() => { setDisplayName(nameInput); setShowNameModal(false); }}
                 disabled={!nameInput.trim()}
                 className="text-sm text-white px-4 py-1.5 rounded-xl font-semibold disabled:opacity-50 transition-all hover:-translate-y-px"
-                style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow: '0 4px 14px rgba(99,102,241,0.38)' }}
+                style={{ background: '#ff385c', color: '#ffffff', borderRadius: '8px' }}
               >
                 ✓ {t('board.save')}
               </button>

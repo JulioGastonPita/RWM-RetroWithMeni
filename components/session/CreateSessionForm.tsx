@@ -7,6 +7,15 @@ import { useLanguage } from '@/components/providers/LanguageProvider';
 
 const FORMAT_IDS = Object.keys(RETRO_FORMATS) as Array<keyof typeof RETRO_FORMATS>;
 
+function focusEl(e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) {
+  e.target.style.borderColor = '#222222';
+  e.target.style.boxShadow = '0 0 0 2px #222222';
+}
+function blurEl(e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) {
+  e.target.style.borderColor = '#dddddd';
+  e.target.style.boxShadow = 'none';
+}
+
 export function CreateSessionForm() {
   const router = useRouter();
   const { t } = useLanguage();
@@ -44,10 +53,19 @@ export function CreateSessionForm() {
     }
   }
 
+  const inputStyle = {
+    border: '1px solid #dddddd',
+    borderRadius: '8px',
+    background: '#ffffff',
+    color: '#222222',
+    outline: 'none',
+    transition: 'border-color 0.1s, box-shadow 0.1s',
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">
+        <label className="block text-sm font-500 mb-1.5" style={{ color: '#222222' }}>
           {t('form.sessionName')}
         </label>
         <input
@@ -57,15 +75,15 @@ export function CreateSessionForm() {
           placeholder={t('form.sessionNamePlaceholder')}
           required
           maxLength={100}
-          className="w-full px-3 py-2.5 text-sm rounded-xl outline-none transition-all"
-          style={{ border: '1.5px solid var(--border-input)', background: 'var(--surface-dim)', color: 'var(--text)' }}
-          onFocus={e => { e.target.style.borderColor = 'var(--border-input-focus)'; e.target.style.boxShadow = '0 0 0 3px rgba(99,102,241,0.12)'; }}
-          onBlur={e => { e.target.style.borderColor = 'var(--border-input)'; e.target.style.boxShadow = 'none'; }}
+          className="w-full px-3 py-2.5 text-sm"
+          style={inputStyle}
+          onFocus={focusEl}
+          onBlur={blurEl}
         />
       </div>
 
       <div>
-        <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">
+        <label className="block text-sm font-500 mb-1.5" style={{ color: '#222222' }}>
           {t('form.format')}
         </label>
         <div className="grid grid-cols-1 gap-2">
@@ -77,9 +95,9 @@ export function CreateSessionForm() {
                 key={id}
                 className="flex items-start gap-3 p-3 rounded-xl cursor-pointer transition-all"
                 style={{
-                  border: selected ? '1.5px solid var(--border-input-focus)' : '1.5px solid var(--border-input)',
-                  background: selected ? 'rgba(99,102,241,0.08)' : 'var(--surface-solid)',
-                  boxShadow: selected ? '0 0 0 3px rgba(99,102,241,0.08)' : 'none',
+                  border: selected ? '1.5px solid #ff385c' : '1.5px solid #dddddd',
+                  background: selected ? 'rgba(255,56,92,0.04)' : '#ffffff',
+                  boxShadow: selected ? '0 0 0 3px rgba(255,56,92,0.08)' : 'none',
                 }}
               >
                 <input
@@ -88,16 +106,17 @@ export function CreateSessionForm() {
                   value={id}
                   checked={selected}
                   onChange={() => setFormat(id)}
-                  className="mt-0.5 accent-indigo-600"
+                  className="mt-0.5 accent-[#ff385c]"
                 />
                 <div>
-                  <div className="font-semibold text-sm" style={{ color: 'var(--text)' }}>{t(`formats.${id}.label`)}</div>
-                  <div className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>{t(`formats.${id}.description`)}</div>
+                  <div className="font-500 text-sm" style={{ color: '#222222' }}>{t(`formats.${id}.label`)}</div>
+                  <div className="text-xs mt-0.5" style={{ color: '#6a6a6a' }}>{t(`formats.${id}.description`)}</div>
                   <div className="flex flex-wrap gap-1 mt-1.5">
                     {fmt.columns.map(col => (
                       <span
                         key={col.id}
-                        className={`text-xs px-2 py-0.5 rounded-full ${col.color} border ${col.border}`}
+                        className="text-xs px-2 py-0.5 rounded"
+                        style={{ background: `${col.accent}12`, color: col.accent, border: `1px solid ${col.accent}30` }}
                       >
                         {col.emoji} {col.label}
                       </span>
@@ -111,16 +130,16 @@ export function CreateSessionForm() {
       </div>
 
       <div>
-        <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">
+        <label className="block text-sm font-500 mb-1.5" style={{ color: '#222222' }}>
           {t('form.votesPerPerson')}
         </label>
         <select
           value={maxVotes}
           onChange={e => setMaxVotes(Number(e.target.value))}
-          className="px-3 py-2.5 text-sm rounded-xl outline-none transition-all"
-          style={{ border: '1.5px solid var(--border-input)', background: 'var(--surface-dim)', color: 'var(--text)' }}
-          onFocus={e => { e.target.style.borderColor = 'var(--border-input-focus)'; e.target.style.boxShadow = '0 0 0 3px rgba(99,102,241,0.12)'; }}
-          onBlur={e => { e.target.style.borderColor = 'var(--border-input)'; e.target.style.boxShadow = 'none'; }}
+          className="px-3 py-2.5 text-sm"
+          style={inputStyle}
+          onFocus={focusEl}
+          onBlur={blurEl}
         >
           {[1, 2, 3, 4, 5, 6, 7, 8, 10].map(n => (
             <option key={n} value={n}>{n} {n !== 1 ? t('form.votes') : t('form.vote')}</option>
@@ -129,14 +148,14 @@ export function CreateSessionForm() {
       </div>
 
       {error && (
-        <p className="text-red-500 text-sm bg-red-50 px-3 py-2 rounded-xl">{error}</p>
+        <p className="text-sm px-3 py-2 rounded-lg" style={{ color: '#c13515', background: '#fff0f0', border: '1px solid #fcc' }}>{error}</p>
       )}
 
       <button
         type="submit"
         disabled={loading || !name.trim()}
-        className="w-full text-white py-2.5 px-4 rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-px"
-        style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed, #9333ea)', boxShadow: '0 4px 14px rgba(99,102,241,0.38)' }}
+        className="w-full py-3 px-4 text-sm font-600 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:opacity-90"
+        style={{ background: '#ff385c', color: '#ffffff' }}
       >
         {loading ? t('form.creating') : t('form.createSession')}
       </button>

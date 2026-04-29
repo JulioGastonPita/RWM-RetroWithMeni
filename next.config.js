@@ -6,7 +6,6 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_APP_VERSION: version,
   },
-  typescript: { ignoreBuildErrors: true },
   serverExternalPackages: ['better-sqlite3'],
 };
 

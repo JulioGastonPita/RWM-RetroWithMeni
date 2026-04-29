@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     image: rwm:latest
     ports:
-      - "8100:3000"
+      - "8101:3000"
     volumes:
       - rwm-data:/app/data
     environment:
@@ -13,9 +13,27 @@ services:
       - PORT=3000
       - DB_PATH=/app/data/retro.db
       - NEXT_TELEMETRY_DISABLED=1
+      # Required — generate with: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+      - SESSION_SECRET=${SESSION_SECRET}
+      # Set to your public URL e.g. https://retro.company.com
+      - ALLOWED_ORIGIN=${ALLOWED_ORIGIN:-http://localhost:8101}
+      # Optional — admin bootstrap
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
+      # Optional — LDAP
+      - LDAP_URL=${LDAP_URL:-}
+      - LDAP_BASE_DN=${LDAP_BASE_DN:-}
+      - LDAP_BIND_DN=${LDAP_BIND_DN:-}
+      - LDAP_BIND_PASSWORD=${LDAP_BIND_PASSWORD:-}
+      - LDAP_USER_FILTER=${LDAP_USER_FILTER:-}
+      # Optional — Microsoft EntraID
+      - ENTRAID_TENANT_ID=${ENTRAID_TENANT_ID:-}
+      - ENTRAID_CLIENT_ID=${ENTRAID_CLIENT_ID:-}
+      - ENTRAID_CLIENT_SECRET=${ENTRAID_CLIENT_SECRET:-}
+      - ENTRAID_REDIRECT_URI=${ENTRAID_REDIRECT_URI:-}
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      test: [ "CMD", "wget", "-qO-", "http://localhost:3000/api/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
