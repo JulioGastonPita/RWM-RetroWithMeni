@@ -21,13 +21,13 @@ export function VoteButton({ count, hasVoted, votesRemaining, onVote, onUnvote }
       onClick={hasVoted ? onUnvote : onVote}
       disabled={!canVote && !hasVoted}
       title={titleText}
-      className="flex items-center gap-1 text-xs px-2 py-1 rounded-full font-semibold transition-all hover:-translate-y-px"
+      className="flex items-center gap-1 text-xs px-2 py-1 rounded-full font-500 transition-all hover:-translate-y-px"
       style={
         hasVoted
-          ? { background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', color: 'white', border: 'none', boxShadow: '0 2px 8px rgba(99,102,241,0.3)' }
+          ? { background: '#ff385c', color: '#ffffff', border: 'none', boxShadow: '0 2px 6px rgba(255,56,92,0.25)' }
           : canVote
-          ? { background: 'var(--surface-solid)', color: 'var(--text-muted)', border: '1.5px solid var(--border-input)' }
-          : { background: 'var(--surface-dim)', color: 'var(--text-subtle)', border: '1.5px solid var(--border)', cursor: 'not-allowed' }
+          ? { background: '#ffffff', color: '#6a6a6a', border: '1px solid #dddddd' }
+          : { background: '#f7f7f7', color: '#929292', border: '1px solid #f7f7f7', cursor: 'not-allowed' }
       }
     >
       <span>▲</span>

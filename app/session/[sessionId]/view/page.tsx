@@ -25,9 +25,7 @@ interface ColumnDef {
   id: string;
   label: string;
   emoji: string;
-  color: string;
-  border: string;
-  header: string;
+  accent: string;
 }
 
 export default function SessionViewPage() {
@@ -73,13 +71,13 @@ export default function SessionViewPage() {
   };
 
   return (
-    <main className="min-h-screen p-4" style={{ background: 'var(--bg)' }}>
+    <main className="min-h-screen p-4" style={{ background: '#f7f7f7' }}>
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <Link href="/" className="text-sm text-indigo-500 hover:underline mb-1 block">← {t('view.back')}</Link>
+            <Link href="/" className="text-sm mb-1 block hover:underline" style={{ color: '#ff385c' }}>← {t('view.back')}</Link>
             <h1 className="text-2xl font-bold" style={{ color: 'var(--text)' }}>{session.name}</h1>
             <p className="text-sm mt-0.5" style={{ color: 'var(--text-muted)' }}>
               {t('view.id')}: <span className="font-mono">{session.id}</span>
@@ -97,25 +95,30 @@ export default function SessionViewPage() {
               .sort((a, b) => b.voteCount - a.voteCount);
 
             return (
-              <div key={col.id} className={`rounded-xl border-2 ${col.border} overflow-hidden`}>
-                <div className={`${col.header} px-4 py-2 flex items-center justify-between`}>
+              <div key={col.id} className="rounded-xl overflow-hidden"
+                style={{ border: `1px solid ${col.accent}40` }}>
+                <div className="px-4 py-2 flex items-center justify-between"
+                  style={{ background: `${col.accent}18`, borderBottom: `1px solid ${col.accent}30` }}>
                   <span className="font-semibold text-white text-sm">
                     {col.emoji} {col.label}
                   </span>
-                  <span className="text-white/80 text-xs">{colCards.length} {colCards.length !== 1 ? t('view.cards') : t('view.card')}</span>
+                  <span className="text-xs font-bold px-2 py-0.5 rounded-full"
+                    style={{ background: `${col.accent}30`, color: col.accent }}>
+                    {colCards.length} {colCards.length !== 1 ? t('view.cards') : t('view.card')}
+                  </span>
                 </div>
 
-                <div className={`${col.color} p-3 space-y-2 min-h-[120px]`}>
+                <div className="p-3 space-y-2 min-h-[120px]" style={{ background: 'var(--surface)' }}>
                   {colCards.length === 0 && (
                     <p className="text-xs text-center pt-4" style={{ color: 'var(--text-muted)' }}>{t('view.noCards')}</p>
                   )}
                   {colCards.map(card => (
-                    <div key={card.id} className="rounded-lg p-3 shadow-sm" style={{ background: 'var(--surface-solid)', border: '1px solid var(--border)' }}>
+                    <div key={card.id} className="rounded-lg p-3 shadow-sm" style={{ background: '#ffffff', border: '1px solid #dddddd' }}>
                       <p className="text-sm whitespace-pre-wrap" style={{ color: 'var(--text)' }}>{card.content}</p>
                       <div className="flex items-center justify-between mt-2">
                         <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{card.authorName}</span>
                         {card.voteCount > 0 && (
-                          <span className="text-xs bg-indigo-100 text-indigo-600 font-medium px-2 py-0.5 rounded-full">
+                          <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(255,56,92,0.08)', color: '#ff385c' }}>
                             👍 {card.voteCount}
                           </span>
                         )}

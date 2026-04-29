@@ -59,8 +59,9 @@ export function CountdownTimer({ sessionId, timerEndsAt, onTimerSet }: Countdown
   const isDone = timeLeft === 0;
 
   return (
-    <div className="border-t border-gray-200 bg-white py-3 flex justify-center">
-      <div className="flex items-center gap-4 bg-gray-50 border border-gray-200 rounded-2xl shadow-md px-6 py-2.5">
+    <div className="py-3 flex justify-center" style={{ borderTop: '1px solid #dddddd', background: '#ffffff' }}>
+      <div className="flex items-center gap-4 px-6 py-2.5 rounded-2xl"
+        style={{ background: '#f7f7f7', border: '1px solid #dddddd', boxShadow: 'rgba(0,0,0,0.04) 0px 2px 6px' }}>
         {/* Duration options */}
         <div className="flex gap-1.5">
           {DURATION_OPTIONS.map(min => (
@@ -68,11 +69,10 @@ export function CountdownTimer({ sessionId, timerEndsAt, onTimerSet }: Countdown
               key={min}
               onClick={() => setSelectedMinutes(min)}
               disabled={isRunning}
-              className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors ${
-                selectedMinutes === min && !isRunning
-                  ? 'bg-indigo-600 text-white'
-                  : 'border border-gray-300 text-gray-600 hover:border-indigo-400 disabled:opacity-40 disabled:cursor-not-allowed'
-              }`}
+              className="text-xs px-3 py-1.5 rounded-lg font-500 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+              style={selectedMinutes === min && !isRunning
+                ? { background: '#222222', color: '#ffffff' }
+                : { border: '1px solid #dddddd', color: '#6a6a6a', background: '#ffffff' }}
             >
               {min}m
             </button>
@@ -80,32 +80,26 @@ export function CountdownTimer({ sessionId, timerEndsAt, onTimerSet }: Countdown
         </div>
 
         {/* Divider */}
-        <div className="w-px h-6 bg-gray-300" />
+        <div className="w-px h-6" style={{ background: '#dddddd' }} />
 
         {/* Countdown display */}
         <span
-          className={`text-3xl font-mono font-bold w-20 text-center tabular-nums transition-colors ${
-            isDone
-              ? 'text-green-600'
-              : isCritical
-              ? 'text-red-500'
-              : 'text-gray-800'
-          }`}
+          className="text-3xl font-mono font-bold w-20 text-center tabular-nums transition-colors"
+          style={{ color: isDone ? '#ff385c' : isCritical ? '#c13515' : '#222222' }}
         >
           {isDone ? '0:00' : formatTime(displayMs)}
         </span>
 
         {/* Divider */}
-        <div className="w-px h-6 bg-gray-300" />
+        <div className="w-px h-6" style={{ background: '#dddddd' }} />
 
         {/* Start / Stop button */}
         <button
           onClick={handleToggle}
-          className={`text-sm font-semibold px-5 py-2 rounded-xl transition-colors ${
-            isRunning
-              ? 'bg-red-500 hover:bg-red-600 text-white'
-              : 'bg-indigo-600 hover:bg-indigo-700 text-white'
-          }`}
+          className="text-sm font-600 px-5 py-2 rounded-lg transition-all hover:opacity-90"
+          style={isRunning
+            ? { background: '#c13515', color: '#ffffff' }
+            : { background: '#ff385c', color: '#ffffff' }}
         >
           {isRunning ? t('timer.stop') : isDone ? t('timer.restart') : t('timer.start')}
         </button>

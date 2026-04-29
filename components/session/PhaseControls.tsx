@@ -59,21 +59,22 @@ export function PhaseControls({
         {PHASES.filter(p => p !== 'done').map((p, i) => (
           <div key={p} className="flex items-center gap-1">
             <span
-              className={`text-xs px-2 py-1 rounded-full font-medium ${
+              className="text-xs px-2 py-1 rounded font-500"
+              style={
                 p === phase
-                  ? 'bg-indigo-600 text-white'
+                  ? { background: '#ff385c', color: '#ffffff' }
                   : PHASES.indexOf(p) < currentPhaseIdx
-                  ? 'bg-green-100 text-green-700'
-                  : 'bg-gray-100 text-gray-400'
-              }`}
+                  ? { background: 'rgba(255,56,92,0.08)', color: '#ff385c' }
+                  : { background: '#f7f7f7', color: '#929292' }
+              }
             >
               {PHASE_LABELS[p]}
             </span>
-            {i < 2 && <span className="text-gray-300 text-xs">→</span>}
+            {i < 2 && <span className="text-xs" style={{ color: '#929292' }}>→</span>}
           </div>
         ))}
         {phase === 'done' && (
-          <span className="text-xs px-2 py-1 rounded-full bg-green-600 text-white font-medium">
+          <span className="text-xs px-2 py-1 rounded font-500" style={{ background: '#ff385c', color: '#ffffff' }}>
             {PHASE_LABELS.done}
           </span>
         )}
@@ -81,7 +82,7 @@ export function PhaseControls({
 
       {/* Votes remaining badge (non-facilitator) */}
       {!isFacilitator && phase === 'vote' && (
-        <span className="text-xs bg-amber-100 text-amber-700 border border-amber-300 px-2 py-1 rounded-full">
+        <span className="text-xs px-2 py-1 rounded font-500" style={{ background: 'rgba(234,88,12,0.08)', color: '#ea580c' }}>
           🗳️ {votesRemaining} {votesRemaining !== 1 ? t('board.votesRemaining') : t('board.voteRemaining')}
         </span>
       )}
@@ -93,8 +94,8 @@ export function PhaseControls({
           {(phase === 'discuss' || phase === 'done') && (
             <button
               onClick={() => onExport(facilitatorToken)}
-              className="text-xs px-3 py-1.5 rounded-[10px] font-semibold transition-all hover:-translate-y-px"
-              style={{ border: '1.5px solid #86efac', color: '#16a34a', background: 'white' }}
+              className="text-xs px-3 py-1.5 font-500 transition-all hover:opacity-80 rounded-lg"
+              style={{ border: '1px solid #ff385c', color: '#ff385c', background: 'transparent' }}
             >
               {t('phase.exportJson')}
             </button>
@@ -106,15 +107,15 @@ export function PhaseControls({
               <div className="flex gap-1">
                 <button
                   onClick={() => { onClearCards(facilitatorToken); setConfirmClear(false); }}
-                  className="text-xs text-white px-3 py-1.5 rounded-[10px] font-semibold transition-all"
-                  style={{ background: 'linear-gradient(135deg, #ef4444, #dc2626)', boxShadow: '0 3px 10px rgba(239,68,68,0.3)' }}
+                  className="text-xs px-3 py-1.5 rounded-lg font-500 transition-all hover:opacity-90"
+                  style={{ background: '#c13515', color: '#ffffff' }}
                 >
                   {t('phase.confirmClear')}
                 </button>
                 <button
                   onClick={() => setConfirmClear(false)}
-                  className="text-xs px-3 py-1.5 rounded-[10px] font-medium transition-all"
-                  style={{ border: '1.5px solid #e0e7ff', color: '#6b7280', background: 'white' }}
+                  className="text-xs px-3 py-1.5 rounded-lg font-500 transition-all hover:bg-gray-50"
+                  style={{ border: '1px solid #dddddd', color: '#6a6a6a', background: 'transparent' }}
                 >
                   {t('phase.cancel')}
                 </button>
@@ -122,8 +123,8 @@ export function PhaseControls({
             ) : (
               <button
                 onClick={() => setConfirmClear(true)}
-                className="text-xs px-3 py-1.5 rounded-[10px] font-semibold transition-all hover:-translate-y-px"
-                style={{ border: '1.5px solid #fca5a5', color: '#ef4444', background: 'white' }}
+                className="text-xs px-3 py-1.5 rounded-lg font-500 transition-all hover:opacity-80"
+                style={{ border: '1px solid rgba(193,53,21,0.4)', color: '#c13515', background: 'transparent' }}
               >
                 {t('phase.clearCards')}
               </button>
@@ -134,8 +135,8 @@ export function PhaseControls({
           {nextPhase && (
             <button
               onClick={() => onPhaseAdvance(nextPhase, facilitatorToken)}
-              className="text-xs text-white px-3 py-1.5 rounded-[10px] font-semibold transition-all hover:-translate-y-px"
-              style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow: '0 4px 14px rgba(99,102,241,0.38)' }}
+              className="text-xs px-3 py-1.5 rounded-lg font-600 transition-all hover:opacity-90"
+              style={{ background: '#ff385c', color: '#ffffff' }}
             >
               {NEXT_PHASE_LABEL[phase]} →
             </button>

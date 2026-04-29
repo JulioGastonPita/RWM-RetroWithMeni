@@ -2,54 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Light mode tokens ─────────────────────────────────────────── */
+/* ── Airbnb-inspired light theme ────────────────────────────────── */
 :root {
-  --bg: linear-gradient(150deg, #f0f7ff 0%, #e8f0fe 35%, #f5f0ff 70%, #fdf2fb 100%);
-  --surface: rgba(255,255,255,0.88);
-  --surface-solid: #ffffff;
-  --surface-dim: #fafbff;
-  --surface-col: rgba(249,249,255,0.6);
-  --border: rgba(99,102,241,0.12);
-  --border-input: #e0e7ff;
-  --border-input-focus: #6366f1;
-  --text: #111827;
-  --text-secondary: #374151;
-  --text-muted: #6b7280;
-  --text-subtle: #9ca3af;
-  --blob-1: rgba(99,102,241,0.12);
-  --blob-2: rgba(167,139,250,0.1);
-  --card-shadow: 0 1px 4px rgba(99,102,241,0.06), 0 2px 8px rgba(0,0,0,0.03);
-  --card-hover-shadow: 0 6px 20px rgba(99,102,241,0.14);
-  --panel-shadow: 0 8px 32px rgba(99,102,241,0.1), 0 2px 8px rgba(0,0,0,0.04);
-  --header-shadow: 0 1px 24px rgba(99,102,241,0.07);
-  --modal-overlay: rgba(79,70,229,0.12);
-  --modal-shadow: 0 32px 80px rgba(99,102,241,0.18), 0 8px 24px rgba(0,0,0,0.08);
-  --toast-bg: #1e1b4b;
-}
+  --bg:                #ffffff;
+  --surface:           #ffffff;
+  --surface-solid:     #ffffff;
+  --surface-dim:       #f7f7f7;
+  --surface-col:       #f7f7f7;
 
-/* ── Dark mode tokens ──────────────────────────────────────────── */
-.dark {
-  --bg: linear-gradient(150deg, #0a0a14 0%, #0f0f22 35%, #0d0c1f 70%, #120c1c 100%);
-  --surface: rgba(20,20,40,0.92);
-  --surface-solid: #14142a;
-  --surface-dim: #111126;
-  --surface-col: rgba(255,255,255,0.03);
-  --border: rgba(99,102,241,0.2);
-  --border-input: rgba(99,102,241,0.25);
-  --border-input-focus: #818cf8;
-  --text: #e2e8f0;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --text-subtle: #475569;
-  --blob-1: rgba(99,102,241,0.06);
-  --blob-2: rgba(167,139,250,0.04);
-  --card-shadow: 0 1px 6px rgba(0,0,0,0.4), 0 2px 12px rgba(0,0,0,0.3);
-  --card-hover-shadow: 0 6px 20px rgba(99,102,241,0.25);
-  --panel-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
-  --header-shadow: 0 1px 24px rgba(0,0,0,0.4);
-  --modal-overlay: rgba(0,0,0,0.65);
-  --modal-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 8px 24px rgba(0,0,0,0.4);
-  --toast-bg: #312e81;
+  --border:            #dddddd;
+  --border-input:      #dddddd;
+  --border-input-focus:#222222;
+
+  --text:              #222222;
+  --text-secondary:    #6a6a6a;
+  --text-muted:        #6a6a6a;
+  --text-subtle:       #929292;
+
+  --accent:            #ff385c;
+  --accent-hover:      #e00b41;
+  --accent-text:       #ffffff;
+
+  --card-shadow:       rgba(0,0,0,0.04) 0px 2px 6px;
+  --card-hover-shadow: rgba(0,0,0,0.08) 0px 4px 12px;
+  --panel-shadow:      rgba(0,0,0,0.02) 0 0 0 1px, rgba(0,0,0,0.04) 0 2px 6px 0, rgba(0,0,0,0.1) 0 4px 8px 0;
+  --header-shadow:     rgba(0,0,0,0.08) 0px 2px 8px;
+  --modal-overlay:     rgba(0,0,0,0.5);
+  --modal-shadow:      rgba(0,0,0,0.02) 0 0 0 1px, rgba(0,0,0,0.04) 0 2px 6px 0, rgba(0,0,0,0.1) 0 4px 8px 0;
+  --toast-bg:          #ffffff;
 }
 
 /* ── Base ──────────────────────────────────────────────────────── */
@@ -58,34 +38,22 @@
     background: var(--bg);
     color: var(--text);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-}
-
-/* ── Ambient glow blobs ────────────────────────────────────────── */
-body::before {
-  content: '';
-  position: fixed;
-  top: -100px; left: -100px;
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, var(--blob-1), transparent 65%);
-  pointer-events: none;
-  z-index: 0;
-}
-body::after {
-  content: '';
-  position: fixed;
-  bottom: -100px; right: -100px;
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, var(--blob-2), transparent 65%);
-  pointer-events: none;
-  z-index: 0;
 }
 
 /* ── Scrollbar ─────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.2); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(99,102,241,0.35); }
+::-webkit-scrollbar-thumb { background: #dddddd; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #c1c1c1; }
+
+/* ── Airbnb input focus style ──────────────────────────────────── */
+.airbnb-input:focus {
+  border-color: #222222 !important;
+  box-shadow: 0 0 0 2px #222222;
+  outline: none;
+}
 
 @layer utilities {
   .card-blob {

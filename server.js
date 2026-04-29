@@ -6,6 +6,11 @@ const { registerHandlers } = require('./socket/handlers');
 const { version } = require('./package.json');
 
 const dev = process.env.NODE_ENV !== 'production';
+
+if (!dev && !process.env.SESSION_SECRET) {
+  console.error('FATAL: SESSION_SECRET environment variable must be set in production');
+  process.exit(1);
+}
 const hostname = process.env.HOST || 'localhost';
 const port = parseInt(process.env.PORT || '3000', 10);
 
@@ -30,9 +35,10 @@ app.prepare().then(() => {
     }
   });
 
+  const allowedOrigin = dev ? '*' : (process.env.ALLOWED_ORIGIN || 'http://localhost:3000');
   const io = new Server(httpServer, {
     cors: {
-      origin: '*',
+      origin: allowedOrigin,
       methods: ['GET', 'POST'],
     },
     path: '/socket.io',

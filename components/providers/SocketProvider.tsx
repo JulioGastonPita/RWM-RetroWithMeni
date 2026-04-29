@@ -64,35 +64,53 @@ export function SocketProvider({ sessionId, children }: SocketProviderProps) {
     facilitatorTokenRef.current = token;
     isFacilitatorRef.current = !!token;
 
-    const storedName = localStorage.getItem(`display_name_${sessionId}`);
-    const globalName = localStorage.getItem('rwm_display_name');
-    const initialName = storedName || globalName || '';
-    setDisplayNameState(initialName);
+    let s: Socket;
 
-    const socketUrl = typeof window !== 'undefined' ? window.location.origin : '';
-    console.log('[RWM] Connecting socket to:', socketUrl, '| path: /socket.io');
-    const s = io(socketUrl, { path: '/socket.io', transports: ['websocket', 'polling'] });
+    // Resolve display name before connecting so join_session carries the right name
+    fetch('/api/auth/me')
+      .then(r => r.ok ? r.json() : null)
+      .catch(() => null)
+      .then(data => {
+        const isAuthenticated = !!data?.user;
+        const sessionName = data?.user?.displayName || '';
+        // If authenticated, always clear localStorage — it may hold a stale auto-generated name.
+        if (isAuthenticated) {
+          localStorage.removeItem(`display_name_${sessionId}`);
+        }
+        const storedName = localStorage.getItem(`display_name_${sessionId}`);
+        // Prefer session name; fall back to localStorage only for unauthenticated guests.
+        const resolvedName = sessionName || (!isAuthenticated ? storedName : '') || '';
+        setDisplayNameState(resolvedName);
 
-    s.on('connect_error', (err) => {
-      console.error('[RWM] Socket connect_error:', err.message, err);
-    });
+        const socketUrl = typeof window !== 'undefined' ? window.location.origin : '';
+        s = io(socketUrl, { path: '/socket.io', transports: ['websocket', 'polling'] });
 
-    s.on('connect', () => {
-      setIsConnected(true);
-      s.emit('join_session', {
-        sessionId,
-        participantId: pid,
-        displayName: localStorage.getItem(`display_name_${sessionId}`) || localStorage.getItem('rwm_display_name') || undefined,
-        facilitatorToken: token || undefined,
+        s.on('connect_error', (err) => {
+          console.error('[RWM] Socket connect_error:', err.message, err);
+        });
+
+        s.on('connect', () => {
+          setIsConnected(true);
+          s.emit('join_session', {
+            sessionId,
+            participantId: pid,
+            displayName: resolvedName || undefined,
+            facilitatorToken: token || undefined,
+          });
+          // If we have a session-authenticated name, rename immediately in case
+          // a stale server-side entry already has an auto-generated "Participant N".
+          if (resolvedName) {
+            s.emit('rename_participant', { sessionId, displayName: resolvedName });
+          }
+        });
+
+        s.on('disconnect', () => setIsConnected(false));
+
+        setSocket(s);
       });
-    });
-
-    s.on('disconnect', () => setIsConnected(false));
-
-    setSocket(s);
 
     return () => {
-      s.disconnect();
+      s?.disconnect();
     };
   }, [sessionId]);
 

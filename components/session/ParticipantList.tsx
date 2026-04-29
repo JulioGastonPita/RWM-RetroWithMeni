@@ -17,15 +17,14 @@ export function ParticipantList({ participants }: ParticipantListProps) {
       {participants.map(p => (
         <span
           key={p.participantId}
-          className={`flex items-center gap-1 text-xs px-2 py-1 rounded-full ${
-            p.isFacilitator
-              ? 'bg-indigo-100 text-indigo-700 border border-indigo-300'
-              : 'bg-gray-100 text-gray-600 border border-gray-200'
-          }`}
+          className="flex items-center gap-1 text-xs px-2 py-1 rounded-full"
+          style={p.isFacilitator
+            ? { background: 'rgba(255,56,92,0.08)', color: '#ff385c', border: '1px solid rgba(255,56,92,0.2)' }
+            : { background: '#f7f7f7', color: '#6a6a6a', border: '1px solid #dddddd' }}
         >
-          <span className="w-2 h-2 rounded-full bg-green-400 inline-block" />
+          <span className="w-2 h-2 rounded-full inline-block" style={{ background: '#16a34a' }} />
           {p.displayName}
-          {p.isFacilitator && <span className="text-indigo-500">★</span>}
+          {p.isFacilitator && <span style={{ color: '#ff385c' }}>★</span>}
         </span>
       ))}
     </div>

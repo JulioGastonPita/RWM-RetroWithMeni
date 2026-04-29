@@ -21,10 +21,7 @@ export function SessionList() {
     async function fetchSessions() {
       try {
         const res = await fetch('/api/sessions');
-        if (!res.ok) {
-          setLoading(false);
-          return;
-        }
+        if (!res.ok) { setLoading(false); return; }
         const data = await res.json();
         setSessions(data.sessions || []);
       } catch (err) {
@@ -44,11 +41,11 @@ export function SessionList() {
     return <p className="text-xs text-center" style={{ color: 'var(--text-subtle)' }}>{t('home.noSessions')}</p>;
   }
 
-  const phaseColors: Record<string, string> = {
-    write: 'bg-blue-100 text-blue-700',
-    vote: 'bg-purple-100 text-purple-700',
-    discuss: 'bg-yellow-100 text-yellow-700',
-    done: 'bg-green-100 text-green-700',
+  const phaseStyles: Record<string, React.CSSProperties> = {
+    write: { background: 'rgba(37,99,235,0.08)', color: '#2563eb' },
+    vote: { background: 'rgba(255,56,92,0.08)', color: '#ff385c' },
+    discuss: { background: 'rgba(234,88,12,0.08)', color: '#ea580c' },
+    done: { background: 'rgba(22,163,74,0.1)', color: '#16a34a' },
   };
 
   return (
@@ -57,23 +54,20 @@ export function SessionList() {
         <Link
           key={session.id}
           href={`/session/${session.id}/view`}
-          className="block p-3 rounded-lg border transition-all hover:border-indigo-400 hover:bg-opacity-50"
-          style={{
-            background: 'var(--surface-dim)',
-            border: '1px solid var(--border-input)',
-            textDecoration: 'none',
-          }}
+          className="block p-3 rounded-lg transition-all hover:bg-gray-50"
+          style={{ background: '#f7f7f7', border: '1px solid #dddddd', textDecoration: 'none' }}
         >
           <div className="flex items-center justify-between gap-2">
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>
+              <p className="font-500 text-sm truncate" style={{ color: '#222222' }}>
                 {session.name}
               </p>
-              <p className="text-xs font-mono truncate" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-xs font-mono truncate" style={{ color: '#929292' }}>
                 {session.id}
               </p>
             </div>
-            <span className={`text-xs px-2 py-1 rounded-full font-medium flex-shrink-0 ${phaseColors[session.phase] || 'bg-gray-100 text-gray-700'}`}>
+            <span className="text-xs px-2 py-1 rounded font-500 uppercase flex-shrink-0"
+              style={{ ...(phaseStyles[session.phase] || { background: '#f7f7f7', color: '#6a6a6a' }), letterSpacing: '0.05em' }}>
               {session.phase}
             </span>
           </div>
